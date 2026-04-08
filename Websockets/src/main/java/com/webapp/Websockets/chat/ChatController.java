@@ -1,0 +1,28 @@
+package com.webapp.Websockets.chat;
+
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.stereotype.Controller;
+
+@Controller
+public class ChatController {
+
+
+    @MessageMapping("/chat.SendMessage")
+    @SendTo("/topic/public")
+    public ChatMessage sendMessage(@Payload ChatMessage chatMessage){
+
+        return chatMessage;
+    }
+
+    public ChatMessage addUser(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor){
+
+        // add username in web socket sesssion
+
+        headerAccessor.getSessionAttributes().put("username",chatMessage.getSender());
+        return chatMessage;
+    }
+
+}
