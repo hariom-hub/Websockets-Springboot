@@ -1,10 +1,7 @@
 package com.Project.ChatingAppBackend.entities;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -24,8 +21,6 @@ public class Room {
     private String Id;  // mongodb unique id
     private String roomId;
     private List<Message>messages = new ArrayList<>();
-
-
 
 
 }
