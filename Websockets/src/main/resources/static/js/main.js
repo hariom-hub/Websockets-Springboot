@@ -19,10 +19,10 @@ function connect(event) {
 
     username = document.querySelector("#name").value.trim();
     if (username) {
-        username.classList().add('hidden');
+        username.classList.add('hidden');
         chatPage.classList.remove('hidden');
 
-        let socket = new SocketJs("/ws");
+        let socket = new SockJS("/ws");
         stompClient = Stomp.over(socket);
         stompClient.connect({}, onConnected, onError);
     }
@@ -50,7 +50,7 @@ function onMessageReceived(payload) {
 
     if (message.type === 'JOIN') {
         messageElement.classList.add('event-message');
-        message.content = message.send + ' joined!';
+        message.content = message.sender + ' joined!';
 
     } else if (message.type === 'LEAVE') {
         messageElement.classList.add('event-message');
@@ -92,11 +92,11 @@ function sendMessage(event) {
             type: 'CHAT'
         };
         stompClient.send(
-            '/app/chat.sendMessage',
+            "/app/chat.sendMessage",
             {},
             JSON.stringify(chatMessage)
         );
-        messageInput.content = "";
+        messageInput.value = "";
     }
     event.preventDefault();
 }
