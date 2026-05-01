@@ -1,13 +1,16 @@
 package com.Project.ChatingAppBackend.controller;
 
+import com.Project.ChatingAppBackend.entities.Message;
 import com.Project.ChatingAppBackend.entities.Room;
 import com.Project.ChatingAppBackend.repository.RoomRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/v1/rooms")
+
 public class RoomController {
 
     private RoomRepository roomRepository;
@@ -17,24 +20,25 @@ public class RoomController {
     }
 
     // create room
-
-    @PostMapping
-    public ResponseEntity<Room> createRoom(@RequestBody String roomId){
+    @PostMapping("/api/v1/rooms")
+    public ResponseEntity<?> createRoom(@RequestBody String roomId){
 
         if(roomRepository.findByRoomId(roomId) != null){
 
             // room already exists
-            ResponseEntity.badRequest().body("Room already exists");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Room already exists.");
         }
         Room newroom = new Room();
         newroom.setRoomId(roomId);
+//        newroom.setMessages(messages);
         Room SavedRoom = roomRepository.save(newroom);
         return ResponseEntity.status(HttpStatus.CREATED).body(SavedRoom);
+
     }
 
     // get room for joining
 
-    @GetMapping("/room/{roomId}")
+    @GetMapping("/{roomId}")
     public ResponseEntity<?> joinRoom(@PathVariable String roomId){
 
         Room room = roomRepository.findByRoomId(roomId);
@@ -46,7 +50,22 @@ public class RoomController {
     }
 
 
+    // get messsages of room
 
+    @GetMapping("/{roomId}/messages")
 
+    public ResponseEntity<List<Message>>getMessages(@PathVariable String roomId, @RequestParam(value = "page",defaultValue = "0",required = false)int page,@RequestParam(value = "size",defaultValue = "20",required = false)int size) {
 
+        Room room = roomRepository.findByRoomId(roomId);
+        List<Message> messages = room.getMessages();
+        if (room == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        int start = Math.max(0,messages.size()- (page+ 1) * size);
+        int end = Math.min(messages.size(),start + size);
+
+        List<Message>paginatedMessages = messages.subList(start,end);
+
+        return ResponseEntity.status(HttpStatus.OK).body(messages);
+    }
 }
