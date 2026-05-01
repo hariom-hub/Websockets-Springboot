@@ -26,7 +26,7 @@ public class RoomController {
         if(roomRepository.findByRoomId(roomId) != null){
 
             // room already exists
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Room already exists.");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Room Already Exists. Create a new room.");
         }
         Room newroom = new Room();
         newroom.setRoomId(roomId);
@@ -38,7 +38,7 @@ public class RoomController {
 
     // get room for joining
 
-    @GetMapping("/{roomId}")
+    @GetMapping("/room/{roomId}")
     public ResponseEntity<?> joinRoom(@PathVariable String roomId){
 
         Room room = roomRepository.findByRoomId(roomId);
@@ -52,7 +52,7 @@ public class RoomController {
 
     // get messsages of room
 
-    @GetMapping("/{roomId}/messages")
+    @GetMapping("/room/{roomId}/messages")
 
     public ResponseEntity<List<Message>>getMessages(@PathVariable String roomId, @RequestParam(value = "page",defaultValue = "0",required = false)int page,@RequestParam(value = "size",defaultValue = "20",required = false)int size) {
 
