@@ -7,11 +7,13 @@ import { Routes } from 'react-router'
 import { Route } from 'react-router'
 import AppRoutes from './config/routes.jsx'
 import { BrowserRouter } from 'react-router'
+import { Toaster } from 'react-hot-toast'
 
 createRoot(document.getElementById('root')).render(
 
   <StrictMode>
     <BrowserRouter>
+    <Toaster/>
   <AppRoutes/>
   </BrowserRouter>
   </StrictMode>
