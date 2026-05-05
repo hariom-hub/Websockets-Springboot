@@ -1,3 +1,2 @@
-# Websockets-Springboot
+<h1>SpringChat</h1>
 
-Websockets implementations in my projects using SockJs library.
