@@ -5,20 +5,19 @@ const ChatPage = () =>{
 
     return(
          <div className="">
-           <header className="flex justify-flexstart ">
+           <header className=" flex justify-around fixed w-full h-20 border dark : bg-gray-500  text-white  shadow  py-5 items-center">
 
-            {/* room id div */}
-            <div>
-                a
+            {/* room name container */}
+            <div className="">
+                <h1>Room : <span>room name</span></h1>
             </div>
-            {/* user name div */}
+            {/* user name container */}
             <div>
-                b
+                <h1>User : <span>Username</span></h1>
             </div>
-            {/* leave room button div */}
+            {/* leave room button  */}
             <div>
-                <Buttoon>hello</Buttoon>
-                
+               <Button id="LeaveButton"  variant="contained" color="error">Leave Room</Button> 
             </div>
 
            </header>
@@ -27,4 +26,4 @@ const ChatPage = () =>{
 
     )
 }
-export default ChatPage
+export default ChatPage;

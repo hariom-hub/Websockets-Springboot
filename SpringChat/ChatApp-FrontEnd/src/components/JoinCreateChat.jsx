@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "@mui/material";
 import {TextField} from "@mui/material";
+import chatIcon from "../assets/chat.png";
 
 
 const JoinCreateChat = ()=>{
@@ -10,7 +11,7 @@ const JoinCreateChat = ()=>{
         <div className="min-h-screen flex items-center justify-center">
             <div className="p-8 w-full flex flex-col gap-5 max-w-md rounded  shadow border dark:shadow-gray-900">
                 <div>
-                    <img src="" alt="" />
+                    <img src="{chatIcon}" alt="chaticon" />
                 </div>
                 <h1 className="text-2xl font-semibold text-center">
                     Join room / Create Room ...
@@ -39,7 +40,7 @@ const JoinCreateChat = ()=>{
                     </Button>
                 </div>
                 <div>
-                    <Button variant="contained" color="secondary">Create Room</Button>
+                    <Button variant="contained" color="success">Create Room</Button>
                 </div>
                </div>
             </div>
