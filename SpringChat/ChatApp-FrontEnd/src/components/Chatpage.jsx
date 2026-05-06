@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Button } from "@mui/material";
 import {MdAttachFile, MdSend} from "react-icons/md";
+
+const [messages,setMessages] = useState([]);
+const [input, setInput] = useState("");
+
+const inputRef = useRef(null);
+
 
 const ChatPage = () =>{
 
@@ -28,8 +34,10 @@ const ChatPage = () =>{
 
            {/* main content */}
 
-           <main>
-            
+           <main className="py-20 border w-2/3 mx-auto bg-slate-600 h-screen overflow-auto text-white">
+            <div className="messageContainer">
+                
+            </div>
            </main>
 
 
@@ -38,12 +46,13 @@ const ChatPage = () =>{
             <div className="h-full rounded w-180 mx-auto bg-cyan-100 flex gap-2 items-center justify-center border rounded-full">
             
             <input type="text"  placeholder="Type your message here..." className=" border bg-blue-300 dark px-3 py-2 rounded-full w-120 h-full"></input>
-           <button className= "bg-green-600 h-10  w-10 flex rounded items-center justify-center">
-            <MdSend size={30} />
-           </button>
-           <button className="bg-purple-500 rounded-full h-10">
+            <button className="bg-purple-500 rounded-full h-10 hover:bg-purple-400">
             <MdAttachFile size={30} />
            </button>
+           <button  className= "bg-green-600 h-10  w-10 flex rounded items-center justify-center hover:bg-green-500"> 
+            <MdSend size={30} />
+           </button>
+           
 
             </div>
 
