@@ -11,7 +11,7 @@ const JoinCreateChat = ()=>{
         <div className="min-h-screen flex items-center justify-center">
             <div className="p-8 w-full flex flex-col gap-5 max-w-md rounded  shadow border dark:shadow-gray-900">
                 <div>
-                    <img src="{chatIcon}" alt="chaticon" />
+                    <img src={chatIcon} className="h-20 mx-auto" alt="chaticon" />
                 </div>
                 <h1 className="text-2xl font-semibold text-center">
                     Join room / Create Room ...

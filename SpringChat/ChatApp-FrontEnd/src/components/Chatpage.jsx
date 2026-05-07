@@ -3,13 +3,60 @@ import React, { useState } from "react";
 import { Button } from "@mui/material";
 import {MdAttachFile, MdSend} from "react-icons/md";
 
-const [messages,setMessages] = useState([]);
-const [input, setInput] = useState("");
-
-const inputRef = useRef(null);
-
 
 const ChatPage = () =>{
+
+
+    const [messages,setMessages] = useState([
+
+    {
+        content : "hello",
+        sender : "hariom"
+    },
+     {
+        content : "hello",
+        sender : "hariom"
+    },
+     {
+        content : "hello",
+        sender : "hariom"
+    },
+     {
+        content : "hello",
+        sender : "hariom"
+    },
+       {
+        content : "hello",
+        sender : "hariom"
+    },
+     {
+        content : "hello",
+        sender : "hariom"
+    },
+       {
+        content : "hello",
+        sender : "hariom"
+    },
+     {
+        content : "hello",
+        sender : "hariom"
+    },
+       {
+        content : "hello",
+        sender : "hariom"
+    },
+     {
+        content : "hello",
+        sender : "hariom"
+    }
+
+]);
+
+    const [input, setInput] = useState("");
+    const [stompClient, setStompClient] = useState(null);
+    const [roomId, setRoomId] = useState("");
+
+    
 
     return(
          <div className="">
@@ -35,11 +82,24 @@ const ChatPage = () =>{
            {/* main content */}
 
            <main className="py-20 border w-2/3 mx-auto bg-slate-600 h-screen overflow-auto text-white">
-            <div className="messageContainer">
-                
-            </div>
+            {
+                messages.map((message,index)=>{
+                    // display message in the main content
+                   return(
+                     <div key={index} >
+                        <div>
+                            <img src={""} alt="avatar" />
+                             <div className="border-white">
+                            <p className="text-sm-white bold">{message.sender}</p>
+                            <p className="text-white">{message.content}</p>
+                        </div>
+                        </div>
+                       
+                    </div>
+                   )
+                })
+            }
            </main>
-
 
            {/* input message container */}
            <div className="fixed bottom-2 w-full h-16">
@@ -52,8 +112,6 @@ const ChatPage = () =>{
            <button  className= "bg-green-600 h-10  w-10 flex rounded items-center justify-center hover:bg-green-500"> 
             <MdSend size={30} />
            </button>
-           
-
             </div>
 
            </div>
