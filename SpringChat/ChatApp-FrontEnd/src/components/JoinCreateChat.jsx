@@ -1,10 +1,43 @@
-import React from "react";
+import React, { use } from "react";
 import { Button } from "@mui/material";
-import {TextField} from "@mui/material";
+import { TextField } from "@mui/material";
 import chatIcon from "../assets/chat.png";
 
 
-const JoinCreateChat = ()=>{
+const JoinCreateChat = () => {
+
+    const [detail, setDetail] = useState({
+        userName: "",
+        roomId: ""
+    });
+
+    // function will handle the current event that is being triggered and will update the state of the component accordingly
+
+    function handleFormInputChange(event) {
+
+        // this will bring the changed key and will set the value
+
+        setDetail({
+            ...detail, [event.target.name]: event.target.value,
+        });
+    }
+
+    // function joinChat() {
+
+    // }
+
+    // function crateRoom() {
+
+    // }
+
+
+    function validateForm(){
+        if(detail.roomId === "" || detail.userName === ""){
+            alert("Please fill all the fields");
+            return false;
+        }
+        return true;
+    }
 
     return (
 
@@ -21,29 +54,29 @@ const JoinCreateChat = ()=>{
                     <label htmlFor="name" className="block font-medium mb-2">
                         Your Name
                     </label>
-                    <TextField id="outlined-basic" required  fullWidth type="text"/>
+                    <TextField onChange={handleFormInputChange} value={detail.userName} placeholder="Enter the name" id="outlined-basic" required fullWidth type="text" />
                     {/* <input type="text"  id="name" className="w-full dark:bg-gray-600 px-4 py-2 dark:border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring:blue-500"/> */}
                 </div>
                 {/* room id div */}
-                 <div className="">
+                <div className="">
                     <label htmlFor="name" className="block font-medium mb-2">
                         Room ID/ New Room ID
                     </label>
                     {/* <input type="text"  id="name" className="w-full dark:bg-gray-600 px-4 py-2 dark:border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring:blue-500"/> */}
-                    <TextField id="outlined-basic" required fullWidth type="text"/>
+                    <TextField id="outlined-basic" required fullWidth type="text" />
                 </div>
                 {/* button */}
-               <div className="flex justify-center gap-10 cursor:pointer;">
-                 <div>
-                    <Button variant="contained" color="primary">
-                        Join Room
-                    </Button>
+                <div className="flex justify-center gap-10 cursor:pointer;">
+                    <div>
+                        <Button variant="contained" color="primary">
+                            Join Room
+                        </Button>
+                    </div>
+                    <div>
+                        <Button variant="contained" color="success">Create Room</Button>
+                    </div>
                 </div>
-                <div>
-                    <Button variant="contained" color="success">Create Room</Button>
-                </div>
-               </div>
-            </div>
+             </div>
         </div>
     )
 }
