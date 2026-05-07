@@ -1,8 +1,8 @@
-import React, { use } from "react";
+import React, { useState } from "react";
 import { Button } from "@mui/material";
 import { TextField } from "@mui/material";
 import chatIcon from "../assets/chat.png";
-
+import toast from "react-hot-toast";
 
 const JoinCreateChat = () => {
 
@@ -22,21 +22,27 @@ const JoinCreateChat = () => {
         });
     }
 
-    // function joinChat() {
+      function validateForm() {
+        if (detail.roomId === "" || detail.userName === "") {
 
-    // }
-
-    // function crateRoom() {
-
-    // }
-
-
-    function validateForm(){
-        if(detail.roomId === "" || detail.userName === ""){
-            alert("Please fill all the fields");
+            toast.error("Please fill all the fields");
             return false;
         }
         return true;
+    }
+
+
+    function joinChat() {
+        if(validateForm()){
+
+        }
+    }
+
+    function createRoom() {
+        if(validateForm()){
+
+        }
+
     }
 
     return (
@@ -54,7 +60,7 @@ const JoinCreateChat = () => {
                     <label htmlFor="name" className="block font-medium mb-2">
                         Your Name
                     </label>
-                    <TextField onChange={handleFormInputChange} value={detail.userName} placeholder="Enter the name" id="outlined-basic" required fullWidth type="text" />
+                    <TextField onChange={handleFormInputChange} name="userName" value={detail.userName} placeholder="Enter your name" id="outlined-basic" required fullWidth type="text" />
                     {/* <input type="text"  id="name" className="w-full dark:bg-gray-600 px-4 py-2 dark:border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring:blue-500"/> */}
                 </div>
                 {/* room id div */}
@@ -63,20 +69,20 @@ const JoinCreateChat = () => {
                         Room ID/ New Room ID
                     </label>
                     {/* <input type="text"  id="name" className="w-full dark:bg-gray-600 px-4 py-2 dark:border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring:blue-500"/> */}
-                    <TextField id="outlined-basic" required fullWidth type="text" />
+                    <TextField name="roomId" onChange={handleFormInputChange} value={detail.roomId} id="outlined-basic" placeholder="Enter Room ID" required fullWidth type="text" />
                 </div>
                 {/* button */}
                 <div className="flex justify-center gap-10 cursor:pointer;">
                     <div>
-                        <Button variant="contained" color="primary">
+                        <Button onClick={joinChat} variant="contained" color="primary">
                             Join Room
                         </Button>
                     </div>
                     <div>
-                        <Button variant="contained" color="success">Create Room</Button>
+                        <Button onClick={createRoom} variant="contained" color="success">Create Room</Button>
                     </div>
                 </div>
-             </div>
+            </div>
         </div>
     )
 }
