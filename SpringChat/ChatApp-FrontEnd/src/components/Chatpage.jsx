@@ -40,13 +40,16 @@ const ChatPage = () => {
         {
             content : "pqrs",
             sender : "harru"
+        },{
+            content : "hello undertaker",
+            sender : "durgesh"
         }
     ]);
 
     const [input, setInput] = useState("");
     const [stompClient, setStompClient] = useState(null);
     const [roomId, setRoomId] = useState("");
-    const [currentUser] = useState("durgesh");
+    const [currentUser,setCurrentUser] = useState("durgesh");
 
 
 

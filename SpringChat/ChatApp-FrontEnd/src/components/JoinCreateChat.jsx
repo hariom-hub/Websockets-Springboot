@@ -3,12 +3,13 @@ import { Button } from "@mui/material";
 import { TextField } from "@mui/material";
 import chatIcon from "../assets/chat.png";
 import toast from "react-hot-toast";
+import { createRoomApi } from "../services/RoomService";
 
 const JoinCreateChat = () => {
 
     const [detail, setDetail] = useState({
-        userName: "",
-        roomId: ""
+        roomId: "",
+        userName: ""
     });
 
     // function will handle the current event that is being triggered and will update the state of the component accordingly
@@ -22,7 +23,7 @@ const JoinCreateChat = () => {
         });
     }
 
-      function validateForm() {
+    function validateForm() {
         if (detail.roomId === "" || detail.userName === "") {
 
             toast.error("Please fill all the fields");
@@ -33,14 +34,32 @@ const JoinCreateChat = () => {
 
 
     function joinChat() {
-        if(validateForm()){
+        if (validateForm()) {
+            console.log(detail);
+            try {
 
+            } catch (error) {
+
+            }
+            toast.success("Joined Room Successfully.");
         }
     }
 
-    function createRoom() {
-        if(validateForm()){
-         toast.success("Room created Successfully.");
+    async function createRoom() {
+        if (validateForm()) {
+
+            console.log(detail);
+        }
+        try {
+            
+            const response = await createRoomApi(detail);
+            console.log(response);
+            toast.success("Room created Successfully.");
+
+            
+        } catch (error) {
+            
+            throw error;
         }
 
     }
