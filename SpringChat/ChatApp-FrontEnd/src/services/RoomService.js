@@ -1,4 +1,4 @@
-import {httpClient} from "../config/AxiosHelper";
+import { httpClient } from "../config/AxiosHelper";
 export const createRoomApi = async (roomDetail) => {
 
    try {
