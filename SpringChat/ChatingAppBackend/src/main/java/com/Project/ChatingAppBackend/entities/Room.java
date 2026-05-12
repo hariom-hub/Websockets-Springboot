@@ -18,7 +18,6 @@ import java.util.List;
 @Setter
 
 public class Room {
-
     @Id
     private String Id;  // mongodb unique id
     private String roomId;
