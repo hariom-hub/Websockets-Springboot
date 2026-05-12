@@ -1,5 +1,7 @@
 package com.Project.ChatingAppBackend.controller;
+import java.util.*;
 
+import com.Project.ChatingAppBackend.dto.RequestRoomId;
 import com.Project.ChatingAppBackend.entities.Message;
 import com.Project.ChatingAppBackend.entities.Room;
 import com.Project.ChatingAppBackend.repository.RoomRepository;
@@ -10,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/rooms")
+//@RequestMapping("/api/v1/rooms") -> creates double path issue
 @CrossOrigin("http://localhost:5173")
 
 public class RoomController {
@@ -21,19 +23,22 @@ public class RoomController {
         this.roomRepository = roomRepository;
     }
 
+
+
+
     // create room
     @PostMapping("/api/v1/rooms")
-    public ResponseEntity<?> createRoom(@RequestBody String roomId){
+    public ResponseEntity<?> createRoom(@RequestBody RequestRoomId requestId){
+
+        String roomId = requestId.getRoomId();
 
         if(roomRepository.findByRoomId(roomId) != null){
-
             // room already exists
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Room Already Exists. Create a new room.");
         }
-        Room newroom = new Room();
-        newroom.setRoomId(roomId);
-//        newroom.setMessages(messages);
-        Room SavedRoom = roomRepository.save(newroom);
+        Room newRoom = new Room(requestId.getRoomId());
+//        newroom.setRoomId(roomId);
+        Room SavedRoom = roomRepository.save(newRoom);
         return ResponseEntity.status(HttpStatus.CREATED).body(SavedRoom);
 
     }
