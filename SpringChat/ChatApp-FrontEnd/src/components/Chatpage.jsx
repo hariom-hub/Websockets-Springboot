@@ -1,10 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Button } from "@mui/material";
 import { MdAttachFile, MdSend } from "react-icons/md";
-
+import useChatContext from "../Context/ChatContext";
+import { useNavigate } from "react-router";
 
 const ChatPage = () => {
+
+
+    const { roomId, currentUser, connected } = useChatContext();
+    console.log(roomId);
+    console.log(currentUser);
+    console.log(connected);
+    const navigate = useNavigate();
+
+
+    useEffect(() => {
+
+        if (!connected) {
+            navigate("/");
+        }
+
+    }, [connected, roomId, currentUser]);
+
+
 
 
     const [messages, setMessages] = useState([
@@ -18,38 +37,37 @@ const ChatPage = () => {
             sender: "roman"
         },
         {
-            content : "abcd",
-            sender : "durgesh"
+            content: "abcd",
+            sender: "durgesh"
         },
         {
-            content : "pqrs",
-            sender : "harru"
+            content: "pqrs",
+            sender: "harru"
         },
         {
-            content : "pqrs",
-            sender : "harru"
+            content: "pqrs",
+            sender: "harru"
         },
         {
-            content : "pqrs",
-            sender : "harru"
+            content: "pqrs",
+            sender: "harru"
         },
         {
-            content : "pqrs",
-            sender : "harru"
+            content: "pqrs",
+            sender: "harru"
         },
         {
-            content : "pqrs",
-            sender : "harru"
-        },{
-            content : "hello undertaker",
-            sender : "durgesh"
+            content: "pqrs",
+            sender: "harru"
+        }, {
+            content: "hello undertaker",
+            sender: "durgesh"
         }
     ]);
 
     const [input, setInput] = useState("");
     const [stompClient, setStompClient] = useState(null);
-    const [roomId, setRoomId] = useState("");
-    const [currentUser,setCurrentUser] = useState("durgesh");
+
 
 
 
@@ -81,21 +99,21 @@ const ChatPage = () => {
                     messages.map((message, index) => {
                         // display message in the main content
                         return (
-                            <div key={index} className= {`flex ${message.sender === currentUser ? "justify-end" : "justify-start"}`}>
-                                <div  className="my-2  mx-w-xs rounded">
-                                {/* Added 'flex' to parent to help control alignment if needed */}
-                                <div className = { `${ message.sender === currentUser ? "bg-blue-400" : "bg-green-400"} flex flex-row items-start rounded px-4 py-2 mx-3 my-1 w-fit  gap-2}`}>
-                                    <img
-                                        className="h-10 w-10 rounded-full flex-shrink-0"
-                                        src={"https://api.dicebear.com/9.x/pixel-art/svg"}
-                                        alt="avatar"
-                                    />
-                                    <div className="flex flex-col min-w-0">
-                                        <p className="text-white font-bold text-lg">{message.sender}</p>
-                                        <p className="text-sm break-words">{message.content}</p>
+                            <div key={index} className={`flex ${message.sender === currentUser ? "justify-end" : "justify-start"}`}>
+                                <div className="my-2  mx-w-xs rounded">
+                                    {/* Added 'flex' to parent to help control alignment if needed */}
+                                    <div className={`${message.sender === currentUser ? "bg-blue-400" : "bg-green-400"} flex flex-row items-start rounded px-4 py-2 mx-3 my-1 w-fit  gap-2}`}>
+                                        <img
+                                            className="h-10 w-10 rounded-full flex-shrink-0"
+                                            src={"https://api.dicebear.com/9.x/pixel-art/svg"}
+                                            alt="avatar"
+                                        />
+                                        <div className="flex flex-col min-w-0">
+                                            <p className="text-white font-bold text-lg">{message.sender}</p>
+                                            <p className="text-sm break-words">{message.content}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             </div>
                         )
                     })

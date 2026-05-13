@@ -3,20 +3,23 @@ import { Button } from "@mui/material";
 import { TextField } from "@mui/material";
 import chatIcon from "../assets/chat.png";
 import toast from "react-hot-toast";
-import { createRoomApi } from "../services/RoomService";
+import { createRoomApi, joinChatApi } from "../services/RoomService";
 import useChatContext from "../Context/ChatContext";
-import { Navigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 
 
 const JoinCreateChat = () => {
 
+
+    
     const [detail, setDetail] = useState({
         roomId: "",
         userName: ""
     });
 
 
-    const { roomId, currentUser, connected,  setroomId, setCurrentUser, setConnected } = useChatContext();
+    const { roomId, currentUser, connected, setroomId, setCurrentUser, setConnected } = useChatContext();
+    const navigate = useNavigate();
 
 
     // function will handle the current event that is being triggered and will update the state of the component accordingly
@@ -43,15 +46,27 @@ const JoinCreateChat = () => {
     }
 
 
-    function joinChat() {
+    async function joinChat() {
         if (validateForm()) {
-            console.log(detail);
+
+
             try {
+                const room = await joinChatApi(detail.roomId);
+                toast.success("Joined Room Successfully.");
+                setCurrentUser(detail.userName);
+                setroomId(room.roomId);
+                setConnected(true);
+                navigate("/chat");
 
             } catch (error) {
 
+                if(error.status === 400){
+                    toast.error(error.response.data);
+                }
+                toast.error("Error joining room. Please check the Room ID and try again.");
+                throw error;
             }
-            toast.success("Joined Room Successfully.");
+
         }
     }
 
@@ -68,10 +83,9 @@ const JoinCreateChat = () => {
             setCurrentUser(detail.userName);
             setroomId(response.roomId);
             setConnected(true);
-            Navigate("/chat");
-            //forward to chatpage
 
-            joinChat();
+            navigate("/chat");
+            //forward to chatpage
 
         } catch (error) {
 
