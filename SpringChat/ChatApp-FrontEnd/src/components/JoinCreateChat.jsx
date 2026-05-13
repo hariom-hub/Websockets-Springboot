@@ -5,6 +5,7 @@ import chatIcon from "../assets/chat.png";
 import toast from "react-hot-toast";
 import { createRoomApi } from "../services/RoomService";
 import useChatContext from "../Context/ChatContext";
+import { Navigate } from "react-router";
 
 
 const JoinCreateChat = () => {
@@ -16,7 +17,7 @@ const JoinCreateChat = () => {
 
 
     const { roomId, currentUser, connected,  setroomId, setCurrentUser, setConnected } = useChatContext();
-    
+
 
     // function will handle the current event that is being triggered and will update the state of the component accordingly
 
@@ -65,9 +66,9 @@ const JoinCreateChat = () => {
             console.log(response);
             toast.success("Room created Successfully.");
             setCurrentUser(detail.userName);
-            setroomId(response.data.roomId);
+            setroomId(response.roomId);
             setConnected(true);
-
+            Navigate("/chat");
             //forward to chatpage
 
             joinChat();
