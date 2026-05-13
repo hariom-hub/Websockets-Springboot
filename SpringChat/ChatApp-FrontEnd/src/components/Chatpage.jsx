@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { Button } from "@mui/material";
 import { MdAttachFile, MdSend } from "react-icons/md";
 import useChatContext from "../Context/ChatContext";
 import { useNavigate } from "react-router";
+import SockJS from "sockjs-client";
 
 const ChatPage = () => {
 
@@ -21,16 +22,14 @@ const ChatPage = () => {
             navigate("/");
         }
 
-    }, [connected, roomId, currentUser]);
-
-
+    }, [roomId, currentUser, connected]);
 
 
     const [messages, setMessages] = useState([
 
         {
             content: "hello!!",
-            sender: "hariom"
+            sender: currentUser
         },
         {
             content: "hii thereaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa!!",
@@ -66,9 +65,22 @@ const ChatPage = () => {
     ]);
 
     const [input, setInput] = useState("");
+    const inputRef = useRef(null);
+    const chatBoxRef = useRef(null);
     const [stompClient, setStompClient] = useState(null);
 
+    // page init:
+    // loading messages from the server
 
+    // initializing the stomp client and connecting to the server
+
+    useEffect(() => {
+
+        const connecWebSocket = () => {
+
+            const socket = new SockJS();
+        }
+    })
 
 
     return (
