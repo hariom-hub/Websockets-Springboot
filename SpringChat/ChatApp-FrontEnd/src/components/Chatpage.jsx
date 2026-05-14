@@ -13,9 +13,9 @@ const ChatPage = () => {
 
 
     const { roomId, currentUser, connected } = useChatContext();
-    console.log(roomId);
-    console.log(currentUser);
-    console.log(connected);
+    // console.log(roomId);
+    // console.log(currentUser);
+    // console.log(connected);
     const navigate = useNavigate();
 
 
@@ -23,6 +23,7 @@ const ChatPage = () => {
 
         if (!connected) {
             navigate("/");
+            toast.error("Disconnected from the server. Please join a room to continue chatting.");
         }
 
     }, [roomId, currentUser, connected]);
@@ -102,7 +103,11 @@ const ChatPage = () => {
     const sendMessage = async () => {
         if (stompClient && connected && input.trim()) {
             console.log(input);
+            setInput("");
+
+            
         }
+
     }
 
 
@@ -126,7 +131,7 @@ const ChatPage = () => {
                 </div>
 
             </header>
-
+5173
             {/* main content */}
 
             <main className="py-20 border w-2/3 mx-auto bg-slate-600 h-screen overflow-auto text-white">
@@ -164,7 +169,7 @@ const ChatPage = () => {
                         <MdAttachFile size={30} />
                     </button>
                     <button className="bg-green-600 h-10  w-10 flex rounded items-center justify-center hover:bg-green-500">
-                        <MdSend size={30} />
+                        <MdSend onClick={sendMessage} size={30} />
                     </button>
                 </div>
 

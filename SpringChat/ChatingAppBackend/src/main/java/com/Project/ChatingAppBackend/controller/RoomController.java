@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-//@RequestMapping("/api/v1/rooms") -> creates double path issue
+@RequestMapping("/api/v1/rooms")
 @CrossOrigin("http://localhost:5173")
 
 public class RoomController {
@@ -27,7 +27,7 @@ public class RoomController {
 
 
     // create room
-    @PostMapping("/api/v1/rooms")
+    @PostMapping
     public ResponseEntity<?> createRoom(@RequestBody RequestRoomId requestId){
 
         String roomId = requestId.getRoomId();
@@ -45,7 +45,7 @@ public class RoomController {
 
     // get room for joining
 
-    @GetMapping("/room/{roomId}")
+    @GetMapping("/{roomId}")
     public ResponseEntity<?> joinRoom(@PathVariable String roomId){
 
         Room room = roomRepository.findByRoomId(roomId);
