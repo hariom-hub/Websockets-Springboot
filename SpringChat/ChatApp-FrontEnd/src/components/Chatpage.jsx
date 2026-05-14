@@ -99,9 +99,9 @@ const ChatPage = () => {
 
     }, [roomId]);
 
-    const sendMessage = () => {
-        if (stompClient && connected) {
-
+    const sendMessage = async () => {
+        if (stompClient && connected && input.trim()) {
+            console.log(input);
         }
     }
 
