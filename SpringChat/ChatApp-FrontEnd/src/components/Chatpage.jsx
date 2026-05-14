@@ -5,6 +5,9 @@ import { MdAttachFile, MdSend } from "react-icons/md";
 import useChatContext from "../Context/ChatContext";
 import { useNavigate } from "react-router";
 import SockJS from "sockjs-client";
+import { API_URL } from "../config/AxiosHelper";
+import { Stomp } from "@stomp/stompjs";
+import toast from "react-hot-toast";
 
 const ChatPage = () => {
 
@@ -78,9 +81,29 @@ const ChatPage = () => {
 
         const connecWebSocket = () => {
 
-            const socket = new SockJS();
+            const socket = new SockJS(`${API_URL}/chat`);
+            const client = Stomp.over(socket);
+
+            client.connect({}, () => {
+                setStompClient(client);
+                toast.success("connected");
+                client.subscribe(`/topic/room/${roomId}`, (message) => {
+                    console.log(message);
+                    const newMessage = JSON.parse(message.body);
+                    setMessages((prev) => [...prev, newMessage]);
+                    // rest of the work after success 
+                });
+            });
+        };
+        connecWebSocket();
+
+    }, [roomId]);
+
+    const sendMessage = () => {
+        if (stompClient && connected) {
+
         }
-    })
+    }
 
 
     return (
@@ -136,7 +159,7 @@ const ChatPage = () => {
             <div className="fixed bottom-2 w-full h-16">
                 <div className="h-full rounded w-180 mx-auto bg-cyan-100 flex gap-2 items-center justify-center border rounded-full">
 
-                    <input type="text" placeholder="Type your message here..." className=" border bg-blue-300 dark px-3 py-2 rounded-full w-120 h-full"></input>
+                    <input value={input} onChange={(e) => setInput(e.target.value)} type="text" placeholder="Type your message here..." className=" border bg-blue-300 dark px-3 py-2 rounded-full w-120 h-full"></input>
                     <button className="bg-purple-500 rounded-full h-10 hover:bg-purple-400">
                         <MdAttachFile size={30} />
                     </button>
