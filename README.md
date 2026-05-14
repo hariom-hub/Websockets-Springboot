@@ -5,10 +5,7 @@ A real-time chat application built with Spring Boot and WebSockets, providing in
 ## 🚀 Features
 
 - **Real-time Messaging**: Instant message delivery using WebSockets
-- **User Authentication**: Secure user registration and login
 - **Chat Rooms**: Create and join multiple chat rooms
-- **Online Status**: See which users are currently online
-- **Message History**: Persistent message storage with database integration
 - **Responsive UI**: Modern React + Vite frontend with intuitive design
 - **Spring Data JPA**: Efficient database operations with ORM
 
@@ -26,7 +23,7 @@ A real-time chat application built with Spring Boot and WebSockets, providing in
 - **JavaScript/HTML/CSS**: Frontend technologies
 
 ### Database
-- **Relational Database**: For persisting users, messages, and chat rooms
+- **MongoDB**: For persisting users, messages, and chat rooms
 
 ### DevOps
 - **Docker**: Containerization support
