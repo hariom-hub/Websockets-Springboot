@@ -13,9 +13,9 @@ const ChatPage = () => {
 
 
     const { roomId, currentUser, connected } = useChatContext();
-    // console.log(roomId);
-    // console.log(currentUser);
-    // console.log(connected);
+    console.log(roomId);
+    console.log(currentUser);
+    console.log(connected);
     const navigate = useNavigate();
 
 
@@ -31,10 +31,7 @@ const ChatPage = () => {
 
     const [messages, setMessages] = useState([
 
-        {
-            content: "hello!!",
-            sender: currentUser
-        },
+
         {
             content: "hii thereaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa!!",
             sender: "roman"
@@ -103,9 +100,17 @@ const ChatPage = () => {
     const sendMessage = async () => {
         if (stompClient && connected && input.trim()) {
             console.log(input);
+
+            const message = {
+                sender: currentUser,
+                content: input,
+                roomId: roomId
+            }
+
+            stompClient.send(`/app/sendMessage/${roomId}`, {}, JSON.stringify(message));
             setInput("");
 
-            
+
         }
 
     }
@@ -131,7 +136,6 @@ const ChatPage = () => {
                 </div>
 
             </header>
-5173
             {/* main content */}
 
             <main className="py-20 border w-2/3 mx-auto bg-slate-600 h-screen overflow-auto text-white">
