@@ -1,4 +1,7 @@
 import { httpClient } from "../config/AxiosHelper";
+
+
+// create room api
 export const createRoomApi = async (roomDetail) => {
 
    try {
@@ -9,9 +12,17 @@ export const createRoomApi = async (roomDetail) => {
    }
 }
 
+// join chat api
 export const joinChatApi = async (roomId) => {
 
    const response = await httpClient.get(`/api/v1/rooms/${roomId}`);
    return response.data;
 
+}
+
+// load messages api
+export const getMessages = async (roomId) =>{
+
+   const response = await httpClient.get(`/api/v1/rooms/${roomId}/messages`);
+   return response.data;
 }

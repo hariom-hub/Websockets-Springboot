@@ -8,14 +8,15 @@ import SockJS from "sockjs-client";
 import { API_URL } from "../config/AxiosHelper";
 import { Stomp } from "@stomp/stompjs";
 import toast from "react-hot-toast";
+import { getMessages } from "../services/RoomService";
 
 const ChatPage = () => {
 
 
     const { roomId, currentUser, connected } = useChatContext();
-    console.log(roomId);
-    console.log(currentUser);
-    console.log(connected);
+    // console.log(roomId);
+    // console.log(currentUser);
+    // console.log(connected);
     const navigate = useNavigate();
 
 
@@ -31,38 +32,8 @@ const ChatPage = () => {
 
     const [messages, setMessages] = useState([
 
-
-        {
-            content: "hii thereaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa!!",
-            sender: "roman"
-        },
-        {
-            content: "abcd",
-            sender: "durgesh"
-        },
-        {
-            content: "pqrs",
-            sender: "harru"
-        },
-        {
-            content: "pqrs",
-            sender: "harru"
-        },
-        {
-            content: "pqrs",
-            sender: "harru"
-        },
-        {
-            content: "pqrs",
-            sender: "harru"
-        },
-        {
-            content: "pqrs",
-            sender: "harru"
-        }, {
-            content: "hello undertaker",
-            sender: "durgesh"
-        }
+       
+ 
     ]);
 
     const [input, setInput] = useState("");
@@ -96,6 +67,36 @@ const ChatPage = () => {
         connecWebSocket();
 
     }, [roomId]);
+
+
+    // loading messages
+
+    useEffect(() =>{
+
+        if(!roomId){
+            toast.error("unable to fetch roomId");
+        }
+        async function loadMessages(){
+
+            try {
+
+                const messages = await getMessages(roomId);
+                console.log(messages);
+                setMessages(messages);
+                
+                
+            } catch (error) {
+                toast.error("Error occuring in loading messages.")
+                throw error;
+
+            }
+        }
+        loadMessages();
+    },[roomId])
+
+
+
+    // sending messages 
 
     const sendMessage = async () => {
         if (stompClient && connected && input.trim()) {
