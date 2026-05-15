@@ -9,11 +9,12 @@ import { API_URL } from "../config/AxiosHelper";
 import { Stomp } from "@stomp/stompjs";
 import toast from "react-hot-toast";
 import { getMessages } from "../services/RoomService";
+import { timeAgo } from "../config/helper";
 
 const ChatPage = () => {
 
 
-    const { roomId, currentUser, connected } = useChatContext();
+    const { roomId, currentUser, connected , setroomId, setCurrentUser, setConnected} = useChatContext();
     // console.log(roomId);
     // console.log(currentUser);
     // console.log(connected);
@@ -95,6 +96,18 @@ const ChatPage = () => {
     },[roomId])
 
 
+    // scroll down
+
+    useEffect(() =>{
+
+        if(chatBoxRef.current){
+            chatBoxRef.current.scroll({
+                top : chatBoxRef.current.scrollHeight,
+                behavior : "smooth"
+            });
+        }
+    },[messages])
+
 
     // sending messages 
 
@@ -105,7 +118,8 @@ const ChatPage = () => {
             const message = {
                 sender: currentUser,
                 content: input,
-                roomId: roomId
+                roomId: roomId,
+                messageTime : timeAgo(message.messageTime)
             }
 
             stompClient.send(`/app/sendMessage/${roomId}`, {}, JSON.stringify(message));
@@ -113,6 +127,20 @@ const ChatPage = () => {
 
 
         }
+
+    }
+
+    // logout
+
+   function handleLogout(){
+
+      stompClient.disconnect();
+        setConnected(false);
+        setroomId(null);
+        setCurrentUser("");
+        // toast.success("Successfully disconnected from the server.");
+        navigate("/");
+    
 
     }
 
@@ -124,22 +152,22 @@ const ChatPage = () => {
 
                 {/* room name container */}
                 <div className="">
-                    <h1>Room : <span>room name</span></h1>
+                    <h1>Room ID : <span>{roomId}</span></h1>
                 </div>
                 {/* user name container */}
                 <div>
-                    <h1>User : <span>Username</span></h1>
+                    <h1>User : <span>{currentUser}</span></h1>
                 </div>
                 {/* leave room button  */}
                 <div>
-                    <Button id="LeaveButton" variant="contained" color="error">Leave Room</Button>
+                    <Button onClick={handleLogout} id="LeaveButton" variant="contained" color="error">Leave Room</Button>
 
                 </div>
 
             </header>
             {/* main content */}
 
-            <main className="py-20 border w-2/3 mx-auto bg-slate-600 h-screen overflow-auto text-white">
+            <main ref={chatBoxRef} className="py-20 border w-2/3 mx-auto bg-slate-600 h-screen overflow-auto text-white">
                 {
                     messages.map((message, index) => {
                         // display message in the main content
@@ -150,12 +178,13 @@ const ChatPage = () => {
                                     <div className={`${message.sender === currentUser ? "bg-blue-400" : "bg-green-400"} flex flex-row items-start rounded px-4 py-2 mx-3 my-1 w-fit  gap-2}`}>
                                         <img
                                             className="h-10 w-10 rounded-full flex-shrink-0"
-                                            src={"https://api.dicebear.com/9.x/pixel-art/svg"}
+                                            src= {message.sender === currentUser ? "https://api.dicebear.com/9.x/pixel-art/svg?seed=Char" : "https://api.dicebear.com/9.x/pixel-art/svg?seed=Random"}
                                             alt="avatar"
                                         />
                                         <div className="flex flex-col min-w-0">
                                             <p className="text-white font-bold text-lg">{message.sender}</p>
                                             <p className="text-sm break-words">{message.content}</p>
+                                            <p className="text-sm break-words">{timeAgo(message.messageTime)}</p>
                                         </div>
                                     </div>
                                 </div>

@@ -10,7 +10,7 @@ export const createRoomApi = async (roomDetail) => {
    } catch (error) {
       throw error;
    }
-}
+} 
 
 // join chat api
 export const joinChatApi = async (roomId) => {
