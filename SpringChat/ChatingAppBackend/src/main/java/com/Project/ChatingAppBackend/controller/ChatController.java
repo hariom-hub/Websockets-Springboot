@@ -1,6 +1,7 @@
 package com.Project.ChatingAppBackend.controller;
 
 
+import com.Project.ChatingAppBackend.config.AppConstants;
 import com.Project.ChatingAppBackend.entities.Message;
 import com.Project.ChatingAppBackend.entities.Room;
 import com.Project.ChatingAppBackend.payload.MessageRequest;
@@ -16,7 +17,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Controller
-@CrossOrigin("http://localhost:5173")
+@CrossOrigin(AppConstants.FRONT_END_BASE_URL)
 
 public class ChatController {
 

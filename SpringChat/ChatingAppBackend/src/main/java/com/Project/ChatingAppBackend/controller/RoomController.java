@@ -1,6 +1,7 @@
 package com.Project.ChatingAppBackend.controller;
 import java.util.*;
 
+import com.Project.ChatingAppBackend.config.AppConstants;
 import com.Project.ChatingAppBackend.dto.RequestRoomId;
 import com.Project.ChatingAppBackend.entities.Message;
 import com.Project.ChatingAppBackend.entities.Room;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/rooms")
-@CrossOrigin("http://localhost:5173")
+@CrossOrigin(AppConstants.FRONT_END_BASE_URL)
 
 public class RoomController {
 

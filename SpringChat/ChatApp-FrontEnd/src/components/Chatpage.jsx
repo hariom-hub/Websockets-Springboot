@@ -30,11 +30,8 @@ const ChatPage = () => {
 
     }, [roomId, currentUser, connected]);
 
-
     const [messages, setMessages] = useState([
 
-       
- 
     ]);
 
     const [input, setInput] = useState("");
@@ -119,7 +116,7 @@ const ChatPage = () => {
                 sender: currentUser,
                 content: input,
                 roomId: roomId,
-                messageTime : timeAgo(message.messageTime)
+                messageTime : new Date().toISOString()
             }
 
             stompClient.send(`/app/sendMessage/${roomId}`, {}, JSON.stringify(message));
@@ -184,7 +181,8 @@ const ChatPage = () => {
                                         <div className="flex flex-col min-w-0">
                                             <p className="text-white font-bold text-lg">{message.sender}</p>
                                             <p className="text-sm break-words">{message.content}</p>
-                                            <p className="text-sm break-words">{timeAgo(message.messageTime)}</p>
+                                            {/* let's resolve this later */}
+                                            {/* <p className="text-black-500 text-sm break-words">{message.messageTime}</p> */}
                                         </div>
                                     </div>
                                 </div>
@@ -198,7 +196,11 @@ const ChatPage = () => {
             <div className="fixed bottom-2 w-full h-16">
                 <div className="h-full rounded w-180 mx-auto bg-cyan-100 flex gap-2 items-center justify-center border rounded-full">
 
-                    <input value={input} onChange={(e) => setInput(e.target.value)} type="text" placeholder="Type your message here..." className=" border bg-blue-300 dark px-3 py-2 rounded-full w-120 h-full"></input>
+                    <input  value={input} onChange={(e) => setInput(e.target.value)} 
+                    onKeyDown={(e)=>{
+                        if(e.key === "Enter"){sendMessage();}
+                    }}
+                    type="text" placeholder="Type your message here..." className=" border bg-blue-300 dark px-3 py-2 rounded-full w-120 h-full"></input>
                     <button className="bg-purple-500 rounded-full h-10 hover:bg-purple-400">
                         <MdAttachFile size={30} />
                     </button>
