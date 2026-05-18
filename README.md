@@ -25,8 +25,6 @@ A real-time chat application built with Spring Boot and WebSockets, providing in
 ### Database
 - **MongoDB**: For persisting users, messages, and chat rooms
 
-### DevOps
-- **Docker**: Containerization support
 
 ## 📋 Prerequisites
 
@@ -110,24 +108,14 @@ Websockets-Springboot/
 └── README.md
 ```
 
-## 🐳 Docker Support
-
-Build and run the application using Docker:
-
-```bash
-docker build -t springchat .
-docker run -p 8080:8080 springchat
-```
 
 ## 📚 API Documentation
 
 The backend provides RESTful endpoints for:
-- User authentication
 - Chat room management
 - Message operations
-- User status
 
-WebSocket connections are available at `/ws` endpoint for real-time messaging.
+WebSocket connections are available at `/app` endpoint for real-time messaging.
 
 ## 🤝 Contributing
 
@@ -150,6 +138,8 @@ This project is open source and available under the MIT License.
 ## 🔗 Related Projects
 
 - [SpringBoot Projects Repository](https://github.com/hariom-hub/SpringbootProjects)
+
+## Docker containerization is coming soon and aws deployment too....
 
 ## 📧 Support
 
