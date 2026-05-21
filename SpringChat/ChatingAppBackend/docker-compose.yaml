@@ -11,6 +11,8 @@ services:
       - chat-net
 
   backend:
+    image: chatingapp-backend
+    container_name: chat-backend  
     ports:
       - "8081:8080"
     environment:
