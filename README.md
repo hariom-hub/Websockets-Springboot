@@ -8,6 +8,7 @@ A real-time chat application built with Spring Boot and WebSockets, providing in
 - **Chat Rooms**: Create and join multiple chat rooms
 - **Responsive UI**: Modern React + Vite frontend with intuitive design
 - **Spring Data JPA**: Efficient database operations with ORM
+- **Docker Support**: Complete containerization with Docker and Docker Compose
 
 ## 🛠️ Tech Stack
 
@@ -31,7 +32,7 @@ A real-time chat application built with Spring Boot and WebSockets, providing in
 - Java 11 or higher
 - Node.js and npm
 - Maven
-- Docker (optional)
+- Docker and Docker Compose (for containerized deployment)
 
 ## 🔧 Installation
 
@@ -45,7 +46,7 @@ cd Websockets-Springboot
 
 2. Navigate to the backend directory:
 ```bash
-cd SpringChat
+cd SpringChat/ChatingAppBackend
 ```
 
 3. Build the project:
@@ -79,9 +80,118 @@ npm run dev
 
 The frontend will start on `http://localhost:5173`
 
+## 🐳 Docker Containerization
+
+### Prerequisites for Docker
+
+- Docker
+- Docker Compose
+
+### Quick Start with Docker Compose
+
+1. Navigate to the backend directory:
+```bash
+cd SpringChat/ChatingAppBackend
+```
+
+2. Build the backend Docker image:
+```bash
+mvn clean package -DskipTests
+docker build -t chatingapp-backend .
+```
+
+3. Run all services with Docker Compose:
+```bash
+docker-compose up -d
+```
+
+This will start:
+- **MongoDB**: Running on `mongodb://localhost:27018` (internal: 27017)
+- **Backend**: Running on `http://localhost:8081`
+- **Frontend**: Running on `http://localhost:5174`
+
+### Docker Compose Services
+
+The `docker-compose.yaml` includes:
+
+```yaml
+services:
+  mongodb:
+    - Image: mongo:7
+    - Port: 27018:27017
+    - Volume: mongo-data (persists data)
+    
+  backend:
+    - Image: chatingapp-backend
+    - Port: 8081:8080
+    - Environment: SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/ChatApp
+    - Depends on: mongodb
+    
+  frontend:
+    - Image: node:20-alpine
+    - Port: 5174:5173
+    - Depends on: backend
+```
+
+### Environment Variables
+
+When running with Docker, the backend automatically uses:
+- `SPRING_DATA_MONGODB_URI`: `mongodb://mongodb:27017/ChatApp`
+
+### Useful Docker Commands
+
+```bash
+# Start services in the background
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# View logs for a specific service
+docker-compose logs -f backend
+docker-compose logs -f mongodb
+docker-compose logs -f frontend
+
+# Stop services
+docker-compose down
+
+# Stop services and remove volumes
+docker-compose down -v
+
+# Rebuild images
+docker-compose up -d --build
+```
+
+### Building Individual Images
+
+#### Backend Dockerfile
+
+The backend uses a multi-stage approach with Alpine Linux for minimal image size:
+
+```dockerfile
+FROM eclipse-temurin:17-jre-alpine
+WORKDIR /app
+COPY target/ChatingAppBackend-0.0.1-SNAPSHOT.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","app.jar"]
+```
+
+Build command:
+```bash
+mvn clean package -DskipTests
+docker build -t chatingapp-backend .
+```
+
+### Network Configuration
+
+All containers communicate through the `chat-net` Docker network:
+- Backend connects to MongoDB using hostname `mongodb`
+- Frontend connects to backend via Docker network
+- External access available through exposed ports
+
 ## 💻 Usage
 
-1. Open your browser and navigate to `http://localhost:5173`
+1. Open your browser and navigate to `http://localhost:5173` (local) or `http://localhost:5174` (Docker)
 2. Register a new account or login with existing credentials
 3. Create a chat room or join an existing one
 4. Start messaging in real-time with other users
@@ -92,19 +202,22 @@ The frontend will start on `http://localhost:5173`
 ```
 Websockets-Springboot/
 ├── SpringChat/
-│   ├── src/
-│   │   ├── main/
-│   │   │   ├── java/
-│   │   │   │   └── [Backend Spring Boot code]
-│   │   │   └── resources/
-│   │   └── test/
-│   ├── pom.xml
-│   └── Dockerfile
-├── SpringChat/ChatApp-FrontEnd/
-│   ├── src/
-│   ├── public/
-│   ├── package.json
-│   └── vite.config.js
+│   ├── ChatingAppBackend/
+│   │   ├── src/
+│   │   │   ├── main/
+│   │   │   │   ├── java/
+│   │   │   │   │   └── [Backend Spring Boot code]
+│   │   │   │   └── resources/
+│   │   │   └── test/
+│   │   ├── pom.xml
+│   │   ├── Dockerfile
+│   │   └── docker-compose.yaml
+│   ├── ChatApp-FrontEnd/
+│   │   ├── src/
+│   │   ├── public/
+│   │   ├── package.json
+│   │   └── vite.config.js
+│   └── README.md
 └── README.md
 ```
 
@@ -139,12 +252,10 @@ This project is open source and available under the MIT License.
 
 - [SpringBoot Projects Repository](https://github.com/hariom-hub/SpringbootProjects)
 
-## Docker containerization is coming soon and aws deployment too....
-
 ## 📧 Support
 
 For support, please open an issue on the GitHub repository.
 
 ---
 
-**Built with ❤️ using Spring Boot and React**
+**Built with ❤️ using Spring Boot, React, and Docker**
