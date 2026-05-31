@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="97415aa5-075b-43fe-bc3d-c6afd2a50ea1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChatApp-FrontEnd/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/ChatApp-FrontEnd/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChatApp-FrontEnd/vercel.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/ChatingAppBackend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/ChatingAppBackend/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
