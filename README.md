@@ -82,112 +82,7 @@ The frontend will start on `http://localhost:5173`
 
 ## 🐳 Docker Containerization
 
-### Prerequisites for Docker
-
-- Docker
-- Docker Compose
-
-### Quick Start with Docker Compose
-
-1. Navigate to the backend directory:
-```bash
-cd SpringChat/ChatingAppBackend
-```
-
-2. Build the backend Docker image:
-```bash
-mvn clean package -DskipTests
-docker build -t chatingapp-backend .
-```
-
-3. Run all services with Docker Compose:
-```bash
-docker-compose up -d
-```
-
-This will start:
-- **MongoDB**: Running on `mongodb://localhost:27018` (internal: 27017)
-- **Backend**: Running on `http://localhost:8081`
-- **Frontend**: Running on `http://localhost:5174`
-
-### Docker Compose Services
-
-The `docker-compose.yaml` includes:
-
-```yaml
-services:
-  mongodb:
-    - Image: mongo:7
-    - Port: 27018:27017
-    - Volume: mongo-data (persists data)
-    
-  backend:
-    - Image: chatingapp-backend
-    - Port: 8081:8080
-    - Environment: SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/ChatApp
-    - Depends on: mongodb
-    
-  frontend:
-    - Image: node:20-alpine
-    - Port: 5174:5173
-    - Depends on: backend
-```
-
-### Environment Variables
-
-When running with Docker, the backend automatically uses:
-- `SPRING_DATA_MONGODB_URI`: `mongodb://mongodb:27017/ChatApp`
-
-### Useful Docker Commands
-
-```bash
-# Start services in the background
-docker-compose up -d
-
-# View logs
-docker-compose logs -f
-
-# View logs for a specific service
-docker-compose logs -f backend
-docker-compose logs -f mongodb
-docker-compose logs -f frontend
-
-# Stop services
-docker-compose down
-
-# Stop services and remove volumes
-docker-compose down -v
-
-# Rebuild images
-docker-compose up -d --build
-```
-
-### Building Individual Images
-
-#### Backend Dockerfile
-
-The backend uses a multi-stage approach with Alpine Linux for minimal image size:
-
-```dockerfile
-FROM eclipse-temurin:17-jre-alpine
-WORKDIR /app
-COPY target/ChatingAppBackend-0.0.1-SNAPSHOT.jar app.jar
-EXPOSE 8080
-ENTRYPOINT ["java","-jar","app.jar"]
-```
-
-Build command:
-```bash
-mvn clean package -DskipTests
-docker build -t chatingapp-backend .
-```
-
-### Network Configuration
-
-All containers communicate through the `chat-net` Docker network:
-- Backend connects to MongoDB using hostname `mongodb`
-- Frontend connects to backend via Docker network
-- External access available through exposed ports
+Dockerfile and docker-compose.yml is under modification due to some configruations in the project.
 
 ## 💻 Usage
 
@@ -251,6 +146,7 @@ This project is open source and available under the MIT License.
 ## 🔗 Related Projects
 
 - [SpringBoot Projects Repository](https://github.com/hariom-hub/SpringbootProjects)
+- CLOUD DEPLOYMENT (AWS,GCP,RENDER) COMING VERY SOON....
 
 ## 📧 Support
 
